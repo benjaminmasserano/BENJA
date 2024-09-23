@@ -1,0 +1,34 @@
+{% block content %}
+<a href="{{ url_for('index') }}">
+    <button type="button">Volver a Inicio</button>
+</a>
+
+<h1>Personas</h1>
+<a href="{{ url_for('add_persona') }}">Añadir Nueva Persona</a>
+<p></p>
+<table border="1" cellpadding="10" cellspacing="0">
+    <thead>
+        <tr>
+            <th>Nombre</th>
+            <th>Apellido</th>
+            <th>Email</th>
+            <th>Teléfono</th>
+            <th>Acciones</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for persona in personas %}
+        <tr>
+            <td>{{ persona.nombre }}</td>
+            <td>{{ persona.apellido }}</td>
+            <td>{{ persona.mail }}</td>
+            <td>{{ persona.telefono }}</td>
+            <td>
+                <a href="{{ url_for('edit_persona', id=persona.id_persona) }}">Editar</a> | 
+                <a href="{{ url_for('delete_persona', id=persona.id_persona) }}">Eliminar</a>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

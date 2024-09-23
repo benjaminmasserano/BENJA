@@ -1,0 +1,74 @@
+{% block content %}
+<a href="{{ url_for('index') }}">
+    <button type="button">Volver a Inicio</button>
+</a>
+
+<h1>Almacén</h1>
+
+<div style="display: flex; justify-content: space-between;">
+    <div style="width: 48%;">
+        <h2>Registrar Entrada de Mercadería</h2>
+        <form action="{{ url_for('add_almacen') }}" method="POST">
+            <label for="id_mercaderia">Seleccione Mercadería:</label>
+            <select name="id_mercaderia" required>
+                {% for item in mercaderias %}
+                    <option value="{{ item.id_mercaderia }}">{{ item.nombre }}</option>
+                {% endfor %}
+            </select><br><br>
+
+            <label for="cantidad">Cantidad a Entrar:</label>
+            <input type="number" name="cantidad" required><br><br>
+
+            <button type="submit">Registrar Entrada</button>
+        </form>
+    </div>
+
+    <div style="width: 48%;">
+        <h2>Registrar Salida de Mercadería</h2>
+        <form action="{{ url_for('salida_almacen') }}" method="POST">
+            <label for="id_mercaderia">Seleccione Mercadería:</label>
+            <select name="id_mercaderia" required>
+                {% for item in almacen %}
+                    {% if item.cantidad > 0 %}
+                        <option value="{{ item.id_mercaderia }}">{{ item.nombre }}</option>
+                    {% endif %}
+                {% endfor %}
+            </select><br><br>
+
+            <label for="cantidad">Cantidad a Salir:</label>
+            <input type="number" name="cantidad" required><br><br>
+
+            <button type="submit">Registrar Salida</button>
+        </form>
+    </div>
+</div>
+
+<h2>Mercaderías en Almacén</h2>
+<table border="1" cellpadding="10" cellspacing="0">
+    <thead>
+        <tr>
+            <th>Nombre</th>
+            <th>Detalle</th>
+            <th>Cantidad</th>
+            <th>Unidad</th>
+            <th>Último Movimiento</th>
+            <th>Tipo Movimiento</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for item in almacen %}
+            {% if item.cantidad > 0 %}
+                <tr>
+                    <td>{{ item.nombre }}</td>
+                    <td>{{ item.detalle }}</td>
+                    <td>{{ item.cantidad }}</td>
+                    <td>{{ item.unidad }}</td>
+                    <td>{{ item.ultimo_movimiento }}</td>
+                    <td>{{ item.tipo_movimiento }}</td>
+                </tr>
+            {% endif %}
+        {% endfor %}
+    </tbody>
+</table>
+
+{% endblock %}

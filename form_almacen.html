@@ -1,0 +1,14 @@
+<form method="POST">
+    <label for="mercaderia">Mercadería:</label>
+    <select name="id_mercaderia" required>
+        <option value="">Seleccione una mercadería</option>
+        {% for mercaderia in mercaderias %}
+        <option value="{{ mercaderia['id_mercaderia'] }}">{{ mercaderia['nombre'] }}</option>
+        {% endfor %}
+    </select>
+
+    <label for="cantidad">Cantidad:</label>
+    <input type="number" name="cantidad" required>
+
+    <input type="submit" value="Agregar al almacén">
+</form>

@@ -1,0 +1,64 @@
+{% block content %}
+<a href="{{ url_for('index') }}">
+    <button type="button">Volver a Inicio</button>
+</a>
+
+<h1>Proveedores</h1>
+<a href="{{ url_for('add_proveedor') }}">Añadir Nuevo Proveedor</a>
+
+<!-- Filtro por Localidad -->
+<p></p>
+<label for="filtro-localidad">Filtrar por Localidad:</label>
+<select id="filtro-localidad">
+    <option value="">Todas las Localidades</option>
+    {% for localidad in localidades %}
+        <option value="{{ localidad }}">{{ localidad }}</option>
+    {% endfor %}
+</select>
+<p></p>
+
+<!-- Tabla de proveedores -->
+<table id="proveedores-table" border="1" cellpadding="10" cellspacing="0">
+    <thead>
+        <tr>
+            <th>Nombre</th>
+            <th>Email</th>
+            <th>Teléfono</th>
+            <th>Localidad</th>
+            <th>Acciones</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for proveedor in proveedores %}
+        <tr>
+            <td>{{ proveedor.nombre }}</td>
+            <td>{{ proveedor.mail }}</td>
+            <td>{{ proveedor.telefono }}</td>
+            <td>{{ proveedor.localidad }}</td>
+            <td>
+                <a href="{{ url_for('edit_proveedor', id=proveedor.id_proveedor) }}">Editar</a> | 
+                <a href="{{ url_for('delete_proveedor', id=proveedor.id_proveedor) }}">Eliminar</a>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+<script>
+// Filtrar tabla por localidad
+document.getElementById('filtro-localidad').addEventListener('change', function() {
+    var selectedLocalidad = this.value.toLowerCase();
+    var rows = document.getElementById('proveedores-table').getElementsByTagName('tbody')[0].getElementsByTagName('tr');
+
+    for (var i = 0; i < rows.length; i++) {
+        var localidad = rows[i].getElementsByTagName('td')[3].textContent.toLowerCase();
+        if (selectedLocalidad === "" || localidad === selectedLocalidad) {
+            rows[i].style.display = '';
+        } else {
+            rows[i].style.display = 'none';
+        }
+    }
+});
+</script>
+
+{% endblock %}
